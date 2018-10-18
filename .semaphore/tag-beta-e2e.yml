@@ -24,7 +24,7 @@ blocks:
   - name: E2e tests & update dashboard
     task:
       jobs:
-      - name: Deploy
+      - name: E2e
         commands:
           - echo "e2e"
 
