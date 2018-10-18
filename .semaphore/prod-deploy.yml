@@ -1,0 +1,29 @@
+version: v1.0
+name: Production deploy
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+
+blocks:
+  - name: Tag production relase
+    task:
+      jobs:
+      - name: Tag
+        commands:
+          - checkout
+          - echo "tag"
+
+  - name: Notify slack
+    task:
+      jobs:
+      - name: Slack
+        commands:
+          - echo "Slack"
+
+  - name: Production deploy
+    task:
+      jobs:
+      - name: Deploy
+        commands:
+          - echo "e2e"

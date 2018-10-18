@@ -1,0 +1,39 @@
+version: v1.0
+name: Tag, Beta release, e2e
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+
+blocks:
+  - name: Tag beta relase
+    task:
+      jobs: - name: Tag
+        commands:
+          - checkout
+          - echo "tag"
+
+  - name: Deploy to beta environment
+    task:
+      jobs:
+      - name: Deploy
+        commands:
+          - echo "Deploy"
+
+  - name: E2e tests & update dashboard
+    task:
+      jobs:
+      - name: Deploy
+        commands:
+          - echo "e2e"
+
+promotions:
+  - name: "[master] Red alert in Slack"
+    pipeline_file: master-red-alert.yml
+    auto_promote_on:
+    - result: failed
+      branch:
+        - "^master$"
+
+  - name: "[master] Tag prod relase, Slack, Deploy"
+    pipeline_file: prod-deploy.yml

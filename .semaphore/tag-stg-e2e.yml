@@ -1,37 +1,32 @@
 version: v1.0
-name: First pipeline example
+name: Tag, Staging release, e2e
 agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu1804
 
 blocks:
-  - name: Build
+  - name: Bump tags
     task:
       jobs:
-      - name: Build job
+      - name: Tag
         commands:
           - checkout
-          - echo "build"
+          - echo "tag"
 
-  - name: Test
+  - name: Deploy to staging env
     task:
-      prologue:
-        commands:
-          - checkout
-
       jobs:
-      - name: Unit tests
+      - name: Deploy
         commands:
-          - echo "Unit"
+          - echo "Deploy"
 
-      - name: Functional tests
+  - name: E2e tests & update dashboard
+    task:
+      jobs:
+      - name: Deploy
         commands:
-          - echo "Func"
-
-      - name: Linting
-        commands:
-          - echo "Linting"
+          - echo "Deploy"
 
 promotions:
   - name: "[master] Red alert in Slack"
@@ -41,8 +36,8 @@ promotions:
       branch:
         - "^master$"
 
-  - name: "[master] Tag, stg, e2e"
-    pipeline_file: tag-stg-e2e.yml
+  - name: "[master] Tag, Beta release, e2e"
+    pipeline_file: tag-beta-e2e.yml
     auto_promote_on:
     - result: passed
       branch:
