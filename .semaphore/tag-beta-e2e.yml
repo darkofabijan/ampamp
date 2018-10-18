@@ -8,7 +8,8 @@ agent:
 blocks:
   - name: Tag beta relase
     task:
-      jobs: - name: Tag
+      jobs:
+      - name: Tag
         commands:
           - checkout
           - echo "tag"
