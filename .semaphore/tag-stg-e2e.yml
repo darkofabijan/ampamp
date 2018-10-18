@@ -6,6 +6,13 @@ agent:
     os_image: ubuntu1804
 
 blocks:
+  - name: Verify master
+    task:
+      jobs:
+      - name: Only master
+        commands:
+          - if [[ "$SEMAPHORE_GIT_BRANCH" != "master" ]]; then echo 'Only master branch can progress further'; exit 1; fi
+
   - name: Bump tags
     task:
       jobs:
