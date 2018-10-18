@@ -36,14 +36,14 @@ blocks:
           - echo "Deploy"
 
 promotions:
-  - name: "[master] Red alert in Slack"
+  - name: "Auto: [failed] → Red alert in Slack"
     pipeline_file: master-red-alert.yml
     auto_promote_on:
     - result: failed
       branch:
         - "^master$"
 
-  - name: "[master] Tag, Beta release, e2e"
+  - name: "Auto: [passed] → Tag, Beta release, e2e"
     pipeline_file: tag-beta-e2e.yml
     auto_promote_on:
     - result: passed
