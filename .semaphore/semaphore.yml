@@ -6,58 +6,29 @@ agent:
     os_image: ubuntu1804
 
 blocks:
-  - name: "Build"
-    task:
-      env_vars:
-        - name: APP_ENV
-          value: prod
-      jobs:
-      - name: Docker build
-        commands:
-          - checkout
-          - ls -1
-          - echo $APP_ENV
-          - echo "Docker build..."
-          - echo "done"
-
-  - name: "Smoke tests"
+  - name: Build
     task:
       jobs:
-      - name: Smoke
+      - name: Build job
         commands:
           - checkout
-          - echo "make smoke"
+          - echo "build"
 
-  - name: "Unit tests"
+  - name: Test
     task:
+      prologue:
+        commands:
+          - checkout
+
       jobs:
-      - name: RSpec
+      - name: Unit tests
         commands:
-          - checkout
-          - echo "make rspec"
+          - echo "Unit"
 
-      - name: Lint code
+      - name: Functional tests
         commands:
-          - checkout
-          - echo "make lint"
+          - echo "Func"
 
-      - name: Check security
+      - name: Linting
         commands:
-          - checkout
-          - echo "make security"
-
-  - name: "Integration tests"
-    task:
-      jobs:
-      - name: Cucumber
-        commands:
-          - checkout
-          - echo "make cucumber"
-
-  - name: "Push Image"
-    task:
-      jobs:
-      - name: Push
-        commands:
-          - checkout
-          - echo "make docker.push"
+          - echo "Linting"
