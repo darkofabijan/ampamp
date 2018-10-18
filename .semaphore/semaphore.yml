@@ -1,5 +1,5 @@
 version: v1.0
-name: First pipeline example
+name: Build and test
 agent:
   machine:
     type: e1-standard-2
@@ -34,14 +34,14 @@ blocks:
           - echo "Linting"
 
 promotions:
-  - name: "[master] Red alert in Slack"
+  - name: "Auto: [master == failed] → Red alert in Slack"
     pipeline_file: master-red-alert.yml
     auto_promote_on:
     - result: failed
       branch:
         - "^master$"
 
-  - name: "[master] Tag, stg, e2e"
+  - name: "Auto: [master == passed] → Tag, staging deploy, e2e"
     pipeline_file: tag-stg-e2e.yml
     auto_promote_on:
     - result: passed
